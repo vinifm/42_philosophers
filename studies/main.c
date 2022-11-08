@@ -18,7 +18,7 @@
 
 #include <pthread.h>
 
-void *routine()
+void	*routine(void)
 {
 	printf("Test test test\n");
 	sleep(3);
@@ -26,7 +26,7 @@ void *routine()
 	return (0);
 }
 
-int main(void)
+int	main(void)
 {
 	// Variable that stores info about the thread
 	pthread_t	t1, t2;
