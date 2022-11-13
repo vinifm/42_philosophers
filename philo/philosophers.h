@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/12 20:02:21 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/13 18:52:27 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define EINVAL 22	// Invalid argument
+# define EINVAL		22	// Invalid argument
+# define INT_MAX 	2147483647
+
+// Input handling
+int		invalid_args(int argc, char *argv[]);
+
+int		ft_atoi(const char *str);
+double	ft_atod(const char *str);
+int		ft_isdigit(int c);
 
 #endif

@@ -1,1 +1,4 @@
 cadet_repos
+.nfs*
+*.o
+philosophers
