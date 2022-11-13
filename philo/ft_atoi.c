@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 17:30:50 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/13 18:51:28 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/13 19:00:24 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_isdigit(int c)
 		return (0);
 }
 
+// Converts a string to integer
 int	ft_atoi(const char *str)
 {
 	int	i;
@@ -53,6 +54,7 @@ int	ft_atoi(const char *str)
 	return (num * minus);
 }
 
+// Converts a string to double
 double	ft_atod(const char *str)
 {
 	int		i;
