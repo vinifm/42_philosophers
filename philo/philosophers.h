@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/14 18:01:26 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:50:55 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,10 @@ int		invalid_args(int argc, char *argv[]);
 int		ft_atoi(const char *str);
 double	ft_atod(const char *str);
 int		ft_isdigit(int c);
+
+/*
+// DELETE BEFORE SUBMISSION
+*/
+void	test_philos(t_philo **philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/14 18:23:26 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:50:34 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_philosopher(int index, t_philo *philo, char *argv[])
 {
-	philo->nb = index;
+	philo->nb = index + 1;
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
@@ -46,19 +46,20 @@ t_philo	**create_philosophers(char *argv[])
 	philo = malloc(sizeof(t_philo *) * (philo_count + 1));
 	if (!philo)
 		return NULL;
-	index = 1;
-	while (index <= philo_count)
+	index = 0;
+	while (index < philo_count)
 	{
 		philo[index] = malloc(sizeof(t_philo));
 		if (!philo[index])
 			return NULL;
 		init_philosopher(index, philo[index], argv);
 		create_fork(philo[index]);
-		if (index > 1)
+		if (index > 0)
 			philo[index]->left_fork = philo[index - 1]->right_fork;
 		index++;
 	}
-	philo[1]->left_fork = philo[index - 1]->right_fork;
+	philo[0]->left_fork = philo[index - 1]->right_fork;
+	philo[index] = NULL;
 	return (philo);
 }
 
@@ -69,5 +70,6 @@ int	main(int argc, char **argv)
 	if (invalid_args(argc, argv))
 		return (EINVAL);
 	philo = create_philosophers(argv);
+	test_philos(philo);
 	return (0);
 }
