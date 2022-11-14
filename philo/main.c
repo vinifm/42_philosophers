@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/13 19:45:35 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:23:26 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 
 void	init_philosopher(int index, t_philo *philo, char *argv[])
 {
-	index++;
 	philo->nb = index;
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		philo->meals_to_eat = ft_atoi(argv[5]);
+	else
+		philo->meals_to_eat = INT_MAX;
+}
+
+void	create_fork(t_philo *philo)
+{
+	t_fork			*fork;
+
+	fork = malloc(sizeof(t_fork));
+	if (!fork)
+		return ;
+	fork->locked = FALSE;
+	pthread_mutex_init(&fork->fork_mutex, NULL);
+	philo->right_fork = fork;
 }
 
 t_philo	**create_philosophers(char *argv[])
@@ -33,15 +46,19 @@ t_philo	**create_philosophers(char *argv[])
 	philo = malloc(sizeof(t_philo *) * (philo_count + 1));
 	if (!philo)
 		return NULL;
-	index = 0;
-	while (index < philo_count)
+	index = 1;
+	while (index <= philo_count)
 	{
 		philo[index] = malloc(sizeof(t_philo));
 		if (!philo[index])
 			return NULL;
 		init_philosopher(index, philo[index], argv);
+		create_fork(philo[index]);
+		if (index > 1)
+			philo[index]->left_fork = philo[index - 1]->right_fork;
 		index++;
 	}
+	philo[1]->left_fork = philo[index - 1]->right_fork;
 	return (philo);
 }
 

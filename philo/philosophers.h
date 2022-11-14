@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/13 19:38:48 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:01:26 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,20 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+# define TRUE		1
+# define FALSE		0
 # define EINVAL		22	// Invalid argument
 # define INT_MAX 	2147483647
 
 /*
 // STRUCTS
 */
+typedef struct s_fork
+{
+	pthread_mutex_t	fork_mutex;
+	int				locked;
+}				t_fork;
+
 typedef struct s_philo
 {
 	int	nb;
@@ -33,6 +41,8 @@ typedef struct s_philo
 	int	time_to_sleep;
 	int	meals_to_eat;
 	int	state;
+	t_fork	*right_fork;
+	t_fork	*left_fork;
 }				t_philo;
 
 /*
