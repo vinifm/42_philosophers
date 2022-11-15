@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/14 18:56:45 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:58:36 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,29 @@ t_philo	**create_philosophers(char *argv[])
 	return (philo);
 }
 
+void	simulation_loop()
+{
+
+}
+
+set_start_time(t_philo **philo)
+{
+
+}
+
+void	start_simulation(t_philo **philo)
+{
+	int	i;
+
+	set_start_time(philo);
+	i = 0;
+	while (philo[i])
+	{
+		pthread_create(&philo[i]->thread, NULL, &simulation_loop, NULL);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	**philo;
@@ -70,6 +93,7 @@ int	main(int argc, char **argv)
 	if (invalid_args(argc, argv))
 		return (EINVAL);
 	philo = create_philosophers(argv);
+	start_simulation(philo);
 	test_philos(philo);
 	return (0);
 }

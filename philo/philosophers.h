@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/14 18:50:55 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:56:03 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,16 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
-	int	nb;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	meals_to_eat;
-	int	state;
-	t_fork	*right_fork;
-	t_fork	*left_fork;
+	pthread_t	thread;
+	int			nb;
+	int			time_to_die;
+	int			time_to_eat;
+	int			time_to_sleep;
+	int			meals_to_eat;
+	int			state;
+	long		start_time;
+	t_fork		*right_fork;
+	t_fork		*left_fork;
 }				t_philo;
 
 /*
