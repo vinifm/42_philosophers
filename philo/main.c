@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/15 18:58:36 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/16 20:33:22 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	init_philosopher(int index, t_philo *philo, char *argv[])
 		philo->meals_to_eat = ft_atoi(argv[5]);
 	else
 		philo->meals_to_eat = INT_MAX;
+	philo->state = THINKING;
+	pthread_mutex_init(&philo->state_mtx, NULL);
 }
 
 void	create_fork(t_philo *philo)
@@ -32,7 +34,7 @@ void	create_fork(t_philo *philo)
 	if (!fork)
 		return ;
 	fork->locked = FALSE;
-	pthread_mutex_init(&fork->fork_mutex, NULL);
+	pthread_mutex_init(&fork->fork_mtx, NULL);
 	philo->right_fork = fork;
 }
 
@@ -63,16 +65,74 @@ t_philo	**create_philosophers(char *argv[])
 	return (philo);
 }
 
-void	simulation_loop()
+//	Checks if the philosopher has not died nor reached the meals goal
+int	alive_and_unsatisfied(t_philo *philo)
 {
-
+	pthread_mutex_lock(&philo->state_mtx);
+	if (philo->state == DEAD)
+	{
+		pthread_mutex_unlock(&philo->state_mtx);
+		return (FALSE);
+	}
+	pthread_mutex_unlock(&philo->state_mtx);
+	if (is_satisfied(philo))
+		return (FALSE);
+	return (TRUE);
 }
 
-set_start_time(t_philo **philo)
+void	check_and_update_state(t_philo *philo)
 {
+	long	timestamp;
 
+	timestamp = gettimestamp(philo->start_time);
+	if (is_thinking(philo))
+	{
+		if (has_both_forks(philo))
+			return(update_state(EATING, philo));
+		else
+			return(pick_forks(philo));
+	}
+	if (done_eating(philo)) // check if they're eating inside
+	{
+		drop_forks(philo);
+		return(update_state(SLEEPING, philo));
+	}
+	if (done_sleeping(philo))
+		return(update_state(THINKING, philo));
 }
 
+void	*state_loop(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *) arg;
+	while (alive_and_unsatisfied(philo))
+	{
+		check_and_update_state(philo);
+		// usleep?
+	}
+	// print state
+	return (0);
+}
+
+// Saves the starting time
+void	set_start_time(t_philo **philo)
+{
+	struct	timeval tv;\
+	long	start_time;
+	int		i;
+
+	gettimeofday(&tv, NULL);
+	start_time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	i = 0;
+	while (philo[i])
+	{
+		philo[i]->start_time = start_time;
+		i++;
+	}
+}
+
+//	Creates each thread
 void	start_simulation(t_philo **philo)
 {
 	int	i;
@@ -81,7 +141,7 @@ void	start_simulation(t_philo **philo)
 	i = 0;
 	while (philo[i])
 	{
-		pthread_create(&philo[i]->thread, NULL, &simulation_loop, NULL);
+		pthread_create(&philo[i]->thread, NULL, &state_loop, philo[i]);
 		i++;
 	}
 }
@@ -94,6 +154,6 @@ int	main(int argc, char **argv)
 		return (EINVAL);
 	philo = create_philosophers(argv);
 	start_simulation(philo);
-	test_philos(philo);
+	// test_philos(philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/15 18:56:03 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/16 20:20:33 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,36 @@
 # define EINVAL		22	// Invalid argument
 # define INT_MAX 	2147483647
 
+typedef enum e_state
+{
+	THINKING,
+	EATING,
+	SLEEPING,
+	DEAD
+}			t_state;
+
 /*
 // STRUCTS
 */
 typedef struct s_fork
 {
-	pthread_mutex_t	fork_mutex;
+	pthread_mutex_t	fork_mtx;
 	int				locked;
 }				t_fork;
 
 typedef struct s_philo
 {
-	pthread_t	thread;
-	int			nb;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			meals_to_eat;
-	int			state;
-	long		start_time;
-	t_fork		*right_fork;
-	t_fork		*left_fork;
+	pthread_t		thread;
+	int				nb;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				meals_to_eat;
+	long			start_time;
+	t_state			state;
+	t_fork			*right_fork;
+	t_fork			*left_fork;
+	pthread_mutex_t	state_mtx;
 }				t_philo;
 
 /*
