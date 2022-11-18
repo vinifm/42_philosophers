@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: viferrei <viferrei@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/16 20:20:33 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:25:17 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ typedef struct s_philo
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				meals_to_eat;
-	long			start_time;
+	int				meals_eaten;
+	pthread_mutex_t	meals_mtx;
+	size_t			start_time;
+	size_t			state_start;
 	t_state			state;
 	t_fork			*right_fork;
 	t_fork			*left_fork;
@@ -64,6 +67,9 @@ int		invalid_args(int argc, char *argv[]);
 int		ft_atoi(const char *str);
 double	ft_atod(const char *str);
 int		ft_isdigit(int c);
+
+// state.c
+void	*state_loop(void *arg);
 
 /*
 // DELETE BEFORE SUBMISSION
