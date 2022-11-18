@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/18 17:58:20 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:00:32 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	update_state(int new_state, t_philo *philo, size_t current_time)
 	pthread_mutex_unlock(&philo->state_mtx);
 	if (new_state == SLEEPING)
 	{
-		pthread_mutex_lock(&philo->meals_mtx);
+		// pthread_mutex_lock(&philo->meals_mtx);
 		philo->meals_eaten++;
-		pthread_mutex_unlock(&philo->meals_mtx);
+		// pthread_mutex_unlock(&philo->meals_mtx);
 	}
 	return (0);
 }
@@ -31,6 +31,7 @@ int	update_state(int new_state, t_philo *philo, size_t current_time)
 int	done_eating(t_philo *philo, size_t current_time)
 {
 	if (philo->state == EATING) 
+		// mutex? 
 		return ((current_time - philo->state_start) >= philo->time_to_eat);
 	return (0);	
 }
@@ -40,6 +41,14 @@ int	done_sleeping(t_philo *philo, size_t current_time)
 	if (philo->state == SLEEPING)
 		return ((current_time - philo->state_start) >= philo->time_to_sleep);
 	return (0); 
+}
+
+size_t	get_current_time(size_t start_time)
+{
+	struct	timeval tv;
+
+	gettimeofday(&tv, NULL);
+	 = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 
 int	check_and_update_state(t_philo *philo)
@@ -65,7 +74,7 @@ int	check_and_update_state(t_philo *philo)
 }
 
 //	Checks if the philosopher has not died nor reached the meals goal
-int	alive_and_unsatisfied(t_philo *philo)
+int	alive_and_hungry(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->state_mtx);
 	if (philo->state == DEAD)
@@ -85,7 +94,7 @@ void	*state_loop(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	while (alive_and_unsatisfied(philo))
+	while (alive_and_hungry(philo))
 	{
 		check_and_update_state(philo);
 		// usleep?
