@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/20 19:34:45 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:21:32 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	create_fork(t_philo *philo)
 	philo->right_fork = fork;
 }
 
-t_mtx	*init_mutexes(char *argv)
+t_mtx	*init_mutexes()
 {
 	t_mtx	*mtx;
 
 	mtx = malloc(sizeof(t_mtx));
 	if (!mtx)
-		return ;
+		return NULL;
 	pthread_mutex_init(&mtx->state_mtx, NULL);
 	pthread_mutex_init(&mtx->print_mtx, NULL);
 	pthread_mutex_init(&mtx->meals_mtx, NULL);
@@ -115,8 +115,12 @@ int	main(int argc, char **argv)
 
 	if (invalid_args(argc, argv))
 		return (EINVAL);
-	mtx = init_mutexes(argv);
+	mtx = init_mutexes();
+	if (!mtx)
+		return (-1);
 	philo = create_philosophers(argv, mtx);
+	if (!philo)
+		return (-1);
 	start_simulation(philo);
 	// simulation_loop / observer
 	// test_philos(philo);

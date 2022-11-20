@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/20 20:01:45 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:25:24 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	print_state(t_philo *philo)
 	 	state_str = "died";
 	printf("%zu %d %s", current_time(), philo->nb, state_str);
 	return (0);
-
+}
 
 int	update_state(int new_state, t_philo *philo)
 {
@@ -66,7 +66,8 @@ int	done_eating(t_philo *philo)
 	if (philo->state == EATING)
 	{
 		pthread_mutex_unlock(&philo->mtx->state_mtx);
-		return ((current_time() - philo->state_start) >= philo->time_to_eat);
+		return ((current_time() - philo->state_start)
+					>= (size_t) philo->time_to_eat);
 	}
 	pthread_mutex_unlock(&philo->mtx->state_mtx);
 	return (0);
@@ -78,7 +79,8 @@ int	done_sleeping(t_philo *philo)
 	if (philo->state == SLEEPING)
 	{
 		pthread_mutex_unlock(&philo->mtx->state_mtx);
-		return ((current_time() - philo->state_start) >= philo->time_to_sleep);
+		return ((current_time() - philo->state_start)
+					>= (size_t) philo->time_to_sleep);
 	}
 	pthread_mutex_unlock(&philo->mtx->state_mtx);
 	return (0);
@@ -98,14 +100,15 @@ int	is_thinking(t_philo *philo)
 
 int	is_dead(t_philo *philo)
 {
-	return((current_time - philo->last_meal_time) >= philo->time_to_die);
+	return((current_time() - philo->last_meal_time)
+			>= (size_t) philo->time_to_die);
 }
 
 int	check_and_update_state(t_philo *philo)
 {
 	// check if should die
 	if (is_dead(philo))
-		return(update_state(DEAD, philo))
+		return(update_state(DEAD, philo));
 	if (is_thinking(philo))
 	{
 		if (has_both_forks(philo))
