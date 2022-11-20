@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viferrei <viferrei@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/18 17:58:01 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/20 19:34:45 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	init_philosopher(int index, t_philo *philo, char *argv[])
+void	init_philosopher(int index, t_philo *philo, char *argv[], t_mtx *mtx)
 {
 	philo->nb = index + 1;
 	philo->time_to_die = ft_atoi(argv[2]);
@@ -24,8 +24,7 @@ void	init_philosopher(int index, t_philo *philo, char *argv[])
 		philo->meals_to_eat = INT_MAX;
 	philo->meals_eaten = 0;
 	philo->state = THINKING;
-	pthread_mutex_init(&philo->state_mtx, NULL);
-	pthread_mutex_init(&philo->meals_mtx, NULL);
+	philo->mtx = mtx;
 }
 
 void	create_fork(t_philo *philo)
@@ -40,7 +39,20 @@ void	create_fork(t_philo *philo)
 	philo->right_fork = fork;
 }
 
-t_philo	**create_philosophers(char *argv[])
+t_mtx	*init_mutexes(char *argv)
+{
+	t_mtx	*mtx;
+
+	mtx = malloc(sizeof(t_mtx));
+	if (!mtx)
+		return ;
+	pthread_mutex_init(&mtx->state_mtx, NULL);
+	pthread_mutex_init(&mtx->print_mtx, NULL);
+	pthread_mutex_init(&mtx->meals_mtx, NULL);
+	return(mtx);
+}
+
+t_philo	**create_philosophers(char *argv[], t_mtx *mtx)
 {
 	t_philo **philo;
 	int		philo_count;
@@ -56,7 +68,7 @@ t_philo	**create_philosophers(char *argv[])
 		philo[index] = malloc(sizeof(t_philo));
 		if (!philo[index])
 			return NULL;
-		init_philosopher(index, philo[index], argv);
+		init_philosopher(index, philo[index], argv, mtx);
 		create_fork(philo[index]);
 		if (index > 0)
 			philo[index]->left_fork = philo[index - 1]->right_fork;
@@ -70,12 +82,10 @@ t_philo	**create_philosophers(char *argv[])
 // Saves the starting time
 void	set_start_time(t_philo **philo)
 {
-	struct	timeval tv;
 	size_t	start_time;
 	int		i;
 
-	gettimeofday(&tv, NULL);
-	start_time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	start_time = current_time();
 	i = 0;
 	while (philo[i])
 	{
@@ -100,11 +110,13 @@ void	start_simulation(t_philo **philo)
 
 int	main(int argc, char **argv)
 {
+	t_mtx	*mtx;
 	t_philo	**philo;
 
 	if (invalid_args(argc, argv))
 		return (EINVAL);
-	philo = create_philosophers(argv);
+	mtx = init_mutexes(argv);
+	philo = create_philosophers(argv, mtx);
 	start_simulation(philo);
 	// simulation_loop / observer
 	// test_philos(philo);
