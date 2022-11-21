@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: viferrei <viferrei@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/21 17:17:00 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/21 20:12:26 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_fork
 // Shared mutexes
 typedef struct s_mtx
 {
+	int				simulation_status;
+	pthread_mutex_t	simulation_mtx;
 	pthread_mutex_t	state_mtx;
 	pthread_mutex_t	print_mtx;
 	pthread_mutex_t	meals_mtx;
@@ -77,9 +79,17 @@ int		ft_atoi(const char *str);
 double	ft_atod(const char *str);
 int		ft_isdigit(int c);
 
-// state.c
+//	state.c
 size_t	current_time(void);
 void	*state_loop(void *arg);
+int		not_hungry(t_philo *philo);
+
+//	state_utils.c
+int	is_thinking(t_philo *philo);
+int	is_eating(t_philo *philo);
+int	is_sleeping(t_philo *philo);
+int	is_dead(t_philo *philo);
+int	is_simulating(t_philo *philo);
 
 /*
 // DELETE BEFORE SUBMISSION

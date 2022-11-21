@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/20 20:21:32 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/21 20:47:41 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_mtx	*init_mutexes()
 	mtx = malloc(sizeof(t_mtx));
 	if (!mtx)
 		return NULL;
+	mtx->simulation_status = TRUE;
+	pthread_mutex_init(&mtx->simulation_mtx, NULL);
 	pthread_mutex_init(&mtx->state_mtx, NULL);
 	pthread_mutex_init(&mtx->print_mtx, NULL);
 	pthread_mutex_init(&mtx->meals_mtx, NULL);
@@ -108,6 +110,27 @@ void	start_simulation(t_philo **philo)
 	}
 }
 
+int	simulation_loop(t_philo **philo, char *argv[])
+{
+	int	index;
+	int	satisfieds;
+	int	philo_count;
+
+	index = 0;
+	satisfieds = 0;
+	philo_count = ft_atoi(argv[1]);
+	while (is_simulating(philo[index]) && (satisfieds < philo_count))
+	{
+		usleep(1000);
+		if (not_hungry(philo[index]))
+			satisfieds++;
+		index++;
+		if ((index + 1) == philo_count)
+			index = 0;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_mtx	*mtx;
@@ -122,7 +145,7 @@ int	main(int argc, char **argv)
 	if (!philo)
 		return (-1);
 	start_simulation(philo);
-	// simulation_loop / observer
+	simulation_loop(philo, argv);
 	// test_philos(philo);
 	return (0);
 }
