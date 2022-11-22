@@ -6,11 +6,11 @@
 #    By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 16:15:21 by viferrei          #+#    #+#              #
-#    Updated: 2022/11/21 19:51:52 by viferrei         ###   ########.fr        #
+#    Updated: 2022/11/22 20:53:00 by viferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= philosophers
+NAME		= philo
 CC			= gcc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -g -pthread

@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/21 20:47:41 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/22 20:11:29 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,28 @@ int	simulation_loop(t_philo **philo, char *argv[])
 	return (0);
 }
 
+//	Join threads, destroy mutexes and free philosophers.
+int	end_simulation(t_philo **philo, t_mtx *mtx)
+{
+	int	i;
+
+	i = 0;
+	while(philo[i])
+	{
+		pthread_join(philo[i]->thread, NULL);
+		pthread_mutex_destroy(&philo[i]->right_fork->fork_mtx);
+		free(philo[i]);
+		i++;
+	}
+	free(philo);
+	pthread_mutex_destroy(&mtx->simulation_mtx);
+	pthread_mutex_destroy(&mtx->state_mtx);
+	pthread_mutex_destroy(&mtx->print_mtx);
+	pthread_mutex_destroy(&mtx->meals_mtx);
+	free(mtx);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_mtx	*mtx;
@@ -146,6 +168,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	start_simulation(philo);
 	simulation_loop(philo, argv);
+	// end_simulation(philo, mtx);
 	// test_philos(philo);
 	return (0);
 }

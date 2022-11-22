@@ -5,8 +5,6 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/philosophers",
-			
-
             "args": ["4", "410", "200", "200"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

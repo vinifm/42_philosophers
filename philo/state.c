@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/21 20:36:42 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/22 20:40:52 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,24 @@ int	update_state(int new_state, t_philo *philo)
 	philo->state = new_state;
 	pthread_mutex_unlock(&philo->mtx->state_mtx);
 	print_state(philo);
-	if (is_dead(philo))
+	if (new_state == DEAD)
 	{
 		pthread_mutex_lock(&philo->mtx->simulation_mtx);
 		philo->mtx->simulation_status = FALSE;
 		pthread_mutex_unlock(&philo->mtx->simulation_mtx);
 	}
-	if (is_sleeping(philo))
+	if (new_state == SLEEPING)
 	{
 		pthread_mutex_lock(&philo->mtx->meals_mtx);
 		philo->meals_eaten++;
 		pthread_mutex_unlock(&philo->mtx->meals_mtx);
+		usleep(philo->time_to_sleep * 1000);
 	}
-	if (is_eating(philo))
+	if (new_state == EATING)
+	{
 		philo->last_meal_time = current_time();
+		usleep(philo->time_to_eat * 1000);
+	}
 	return (0);
 }
 
@@ -163,12 +167,11 @@ void	*state_loop(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	if (philo->nb % 2)
-		usleep(5000);
+	usleep(philo->nb * 250);
 	while (!is_dead(philo) && !not_hungry(philo))
 	{
 		check_and_update_state(philo);
-		usleep(150);
+		usleep(200);
 	}
 	return (0);
 }
