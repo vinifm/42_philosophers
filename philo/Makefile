@@ -6,7 +6,7 @@
 #    By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 16:15:21 by viferrei          #+#    #+#              #
-#    Updated: 2022/11/24 12:44:12 by viferrei         ###   ########.fr        #
+#    Updated: 2022/11/24 12:53:34 by viferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,8 @@ RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -g -pthread
 
 # valgrind flags.
-LFLAGS		=	--show-leak-kinds=all \
-				--track-origins=yes \
-				--log-file=valgrind-out.txt \
-				--tool=helgrind --tool=drd \
+LFLAGS		=	--tool=helgrind --tool=drd \
 				./philo 4 310 200 100
-
 
 OBJDIR		= ./objs/
 
