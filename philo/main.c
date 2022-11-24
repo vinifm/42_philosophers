@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/22 20:11:29 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:19:51 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	start_simulation(philo);
 	simulation_loop(philo, argv);
-	// end_simulation(philo, mtx);
+	end_simulation(philo, mtx);
 	// test_philos(philo);
 	return (0);
 }

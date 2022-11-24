@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/22 20:40:52 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:27:08 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ int	picked_forks(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->right_fork->fork_mtx);
 	pthread_mutex_lock(&philo->left_fork->fork_mtx);
-	if (philo->right_fork->locked == FALSE && philo->left_fork->locked == FALSE)
+	if (is_simulating(philo)
+		&& philo->right_fork->locked == FALSE
+		&& philo->left_fork->locked == FALSE)
 	{
 		philo->right_fork->locked = TRUE;
 		philo->left_fork->locked = TRUE;
