@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 13:18:06 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:46:33 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void	*state_loop(void *arg)
 	usleep(philo->nb * 250);
 	while (!is_dead(philo) && !not_hungry(philo))
 	{
+		// if (!(philo->nb % 2) && philo->philo_count % 2)
+		// 	usleep(5000);
 		check_and_update_state(philo);
 		usleep(200);
 	}

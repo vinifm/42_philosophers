@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 13:17:33 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:43:29 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	int				nb;
+	int				philo_count;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;

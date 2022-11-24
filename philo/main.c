@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 13:18:47 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:41:54 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	init_philosopher(int index, t_philo *philo, char *argv[], t_mtx *mtx)
 {
 	philo->nb = index + 1;
+	philo->philo_count = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
