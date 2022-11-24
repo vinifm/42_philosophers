@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/21 20:12:26 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:17:33 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum e_state
 */
 typedef struct s_fork
 {
-	pthread_mutex_t	fork_mtx;
 	int				locked;
 }				t_fork;
 
@@ -49,6 +48,7 @@ typedef struct s_mtx
 	pthread_mutex_t	state_mtx;
 	pthread_mutex_t	print_mtx;
 	pthread_mutex_t	meals_mtx;
+	pthread_mutex_t	forks_mtx;
 }				t_mtx;
 
 // Individual philosopher struct

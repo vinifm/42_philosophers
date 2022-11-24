@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 12:55:39 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:18:06 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ int	done_living(t_philo *philo)
 
 int	picked_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->right_fork->fork_mtx);
-	pthread_mutex_lock(&philo->left_fork->fork_mtx);
+	pthread_mutex_lock(&philo->mtx->forks_mtx);
 	if (is_simulating(philo)
 		&& philo->right_fork->locked == FALSE
 		&& philo->left_fork->locked == FALSE)
@@ -112,23 +111,19 @@ int	picked_forks(t_philo *philo)
 		printf("%zu %d has taken a fork\n", current_time(), philo->nb);
 		printf("%zu %d has taken a fork\n", current_time(), philo->nb);
 		pthread_mutex_unlock(&philo->mtx->print_mtx);
-		pthread_mutex_unlock(&philo->left_fork->fork_mtx);
-		pthread_mutex_unlock(&philo->right_fork->fork_mtx);
+		pthread_mutex_unlock(&philo->mtx->forks_mtx);
 		return (TRUE);
 	}
-	pthread_mutex_unlock(&philo->left_fork->fork_mtx);
-	pthread_mutex_unlock(&philo->right_fork->fork_mtx);
+	pthread_mutex_unlock(&philo->mtx->forks_mtx);
 	return (FALSE);
 }
 
 int	drop_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->right_fork->fork_mtx);
-	pthread_mutex_lock(&philo->left_fork->fork_mtx);
+	pthread_mutex_lock(&philo->mtx->forks_mtx);
 	philo->right_fork->locked = FALSE;
 	philo->left_fork->locked = FALSE;
-	pthread_mutex_unlock(&philo->left_fork->fork_mtx);
-	pthread_mutex_unlock(&philo->right_fork->fork_mtx);
+	pthread_mutex_unlock(&philo->mtx->forks_mtx);
 	return (0);
 }
 

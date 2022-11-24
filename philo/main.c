@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 12:19:51 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:18:47 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	create_fork(t_philo *philo)
 	if (!fork)
 		return ;
 	fork->locked = FALSE;
-	pthread_mutex_init(&fork->fork_mtx, NULL);
+	// pthread_mutex_init(&fork->fork_mtx, NULL);
 	philo->right_fork = fork;
 }
 
@@ -51,6 +51,7 @@ t_mtx	*init_mutexes()
 	pthread_mutex_init(&mtx->state_mtx, NULL);
 	pthread_mutex_init(&mtx->print_mtx, NULL);
 	pthread_mutex_init(&mtx->meals_mtx, NULL);
+	pthread_mutex_init(&mtx->forks_mtx, NULL);
 	return(mtx);
 }
 
@@ -140,7 +141,7 @@ int	end_simulation(t_philo **philo, t_mtx *mtx)
 	while(philo[i])
 	{
 		pthread_join(philo[i]->thread, NULL);
-		pthread_mutex_destroy(&philo[i]->right_fork->fork_mtx);
+		// pthread_mutex_destroy(&philo[i]->right_fork->fork_mtx);
 		free(philo[i]);
 		i++;
 	}
@@ -149,6 +150,7 @@ int	end_simulation(t_philo **philo, t_mtx *mtx)
 	pthread_mutex_destroy(&mtx->state_mtx);
 	pthread_mutex_destroy(&mtx->print_mtx);
 	pthread_mutex_destroy(&mtx->meals_mtx);
+	pthread_mutex_destroy(&mtx->forks_mtx);
 	free(mtx);
 	return (0);
 }
