@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 13:46:33 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:57:38 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	picked_forks(t_philo *philo)
 		printf("%zu %d has taken a fork\n", current_time(), philo->nb);
 		pthread_mutex_unlock(&philo->mtx->print_mtx);
 		pthread_mutex_unlock(&philo->mtx->forks_mtx);
+		update_state(EATING, philo);
 		return (TRUE);
 	}
 	pthread_mutex_unlock(&philo->mtx->forks_mtx);
@@ -133,8 +134,8 @@ int	check_and_update_state(t_philo *philo)
 		return(update_state(DEAD, philo));
 	if (is_thinking(philo))
 	{
-		if (picked_forks(philo))
-			return (update_state(EATING, philo));
+		while (!(picked_forks(philo)) && is_simulating(philo))
+			continue ;
 	}
 	if (done_eating(philo))
 	{
@@ -165,10 +166,15 @@ void	*state_loop(void *arg)
 
 	philo = (t_philo *) arg;
 	usleep(philo->nb * 250);
+	// if (philo->nb % 2)
+	// 	usleep(5000);
 	while (!is_dead(philo) && !not_hungry(philo))
 	{
-		// if (!(philo->nb % 2) && philo->philo_count % 2)
-		// 	usleep(5000);
+		// if (!(philo->nb % 2) && (philo->philo_count % 2))
+		// {
+		// 	printf("%d\n", philo->nb);
+		// 	usleep(500);
+		// }
 		check_and_update_state(philo);
 		usleep(200);
 	}

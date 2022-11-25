@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 13:41:54 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:14:34 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,11 @@ int	main(int argc, char **argv)
 
 	if (invalid_args(argc, argv))
 		return (EINVAL);
+	if (ft_atoi(argv[1]) == 1)
+	{
+		printf("0 1 died\n");
+		return (0);
+	}
 	mtx = init_mutexes();
 	if (!mtx)
 		return (-1);
