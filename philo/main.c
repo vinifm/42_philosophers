@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/25 17:14:34 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/26 19:48:14 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	end_simulation(t_philo **philo, t_mtx *mtx)
 	while(philo[i])
 	{
 		pthread_join(philo[i]->thread, NULL);
-		// pthread_mutex_destroy(&philo[i]->right_fork->fork_mtx);
+		free(philo[i]->right_fork);
 		free(philo[i]);
 		i++;
 	}

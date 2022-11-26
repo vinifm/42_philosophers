@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/24 13:43:29 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/26 19:42:19 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef enum e_state
 	THINKING,
 	EATING,
 	SLEEPING,
-	DEAD
+	DEAD,
+	SIMULATION_ENDED
 }			t_state;
 
 /*

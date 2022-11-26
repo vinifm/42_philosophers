@@ -2,3 +2,4 @@ cadet_repos
 .nfs*
 *.o
 philosophers
+test_results
