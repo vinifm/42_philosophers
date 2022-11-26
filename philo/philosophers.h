@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/26 19:42:19 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:07:55 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ double	ft_atod(const char *str);
 int		ft_isdigit(int c);
 
 //	state.c
+int	update_state(int new_state, t_philo *philo);
 size_t	current_time(void);
 void	*state_loop(void *arg);
 int		not_hungry(t_philo *philo);

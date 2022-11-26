@@ -6,14 +6,19 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:41:51 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/26 19:48:14 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:39:52 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	init_philosopher(int index, t_philo *philo, char *argv[], t_mtx *mtx)
+t_philo *init_philosopher(int index, char *argv[], t_mtx *mtx)
 {
+	t_philo	*philo;
+
+	philo = malloc(sizeof(t_philo));
+	if (!philo)
+		return NULL;
 	philo->nb = index + 1;
 	philo->philo_count = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
@@ -24,8 +29,12 @@ void	init_philosopher(int index, t_philo *philo, char *argv[], t_mtx *mtx)
 	else
 		philo->meals_to_eat = INT_MAX;
 	philo->meals_eaten = 0;
+	philo->last_meal_time = 0;
+	philo->start_time = 0;
+	philo->state_start = 0;
 	philo->state = THINKING;
 	philo->mtx = mtx;
+	return (philo);
 }
 
 void	create_fork(t_philo *philo)
@@ -69,10 +78,9 @@ t_philo	**create_philosophers(char *argv[], t_mtx *mtx)
 	index = 0;
 	while (index < philo_count)
 	{
-		philo[index] = malloc(sizeof(t_philo));
+		philo[index] = init_philosopher(index, argv, mtx);
 		if (!philo[index])
 			return NULL;
-		init_philosopher(index, philo[index], argv, mtx);
 		create_fork(philo[index]);
 		if (index > 0)
 			philo[index]->left_fork = philo[index - 1]->right_fork;
@@ -138,6 +146,14 @@ int	end_simulation(t_philo **philo, t_mtx *mtx)
 {
 	int	i;
 
+	i = 0;
+	// while(philo[i])
+	// {
+	// 	pthread_mutex_lock(&philo[i]->mtx->state_mtx);
+	// 	philo[i]->state = SIMULATION_ENDED;
+	// 	pthread_mutex_unlock(&philo[i]->mtx->state_mtx);
+	// 	i++;
+	// }
 	i = 0;
 	while(philo[i])
 	{

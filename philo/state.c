@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:09:46 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/26 19:45:39 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:40:52 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	update_state(int new_state, t_philo *philo)
 	if (new_state == EATING)
 	{
 		philo->last_meal_time = current_time();
+		// check if philo will die eating
 		usleep(philo->time_to_eat * 1000);
 	}
 	return (0);
@@ -130,21 +131,22 @@ int	drop_forks(t_philo *philo)
 
 int	check_and_update_state(t_philo *philo)
 {
-	if (done_living(philo))
-		return(update_state(DEAD, philo));
-	if (is_thinking(philo))
-	{
-		while (!(picked_forks(philo)) && is_simulating(philo))
-			continue ;
-	}
-	if (done_eating(philo))
-	{
-		drop_forks(philo);
-		return (update_state(SLEEPING, philo));
-	}
-	if (done_sleeping(philo))
-		return (update_state(THINKING, philo));
-	return (0);
+
+		if (done_living(philo))
+			return(update_state(DEAD, philo));
+		if (is_thinking(philo))
+		{
+			while (!(picked_forks(philo)) && is_simulating(philo))
+				continue ;
+		}
+		if (done_eating(philo))
+		{
+			drop_forks(philo);
+			return (update_state(SLEEPING, philo));
+		}
+		if (done_sleeping(philo))
+			return (update_state(THINKING, philo));
+		return (0);
 }
 
 int	not_hungry(t_philo *philo)
@@ -168,7 +170,7 @@ void	*state_loop(void *arg)
 	usleep(philo->nb * 250);
 	// if (philo->nb % 2)
 	// 	usleep(5000);
-	while (!is_dead(philo) && !not_hungry(philo) && is_simulating(philo))
+	while (!is_dead(philo) && !not_hungry(philo))
 	{
 		// if (!(philo->nb % 2) && (philo->philo_count % 2))
 		// {
