@@ -6,7 +6,7 @@
 #    By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 16:15:21 by viferrei          #+#    #+#              #
-#    Updated: 2022/11/24 13:19:04 by viferrei         ###   ########.fr        #
+#    Updated: 2022/11/28 10:29:06 by viferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,5 +48,10 @@ re: fclean all
 
 leaks:
 	valgrind $(LFLAGS)
+
+git:
+	git add ../
+	git commit -m"make git"
+	git push
 
 .PHONY: all clean fclean re leaks run
