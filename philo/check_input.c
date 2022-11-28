@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 17:56:14 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/13 18:56:43 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:38:16 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	invalid_args(int argc, char *argv[])
 		str = argv[i];
 		while (*str)
 		{
-			if(!ft_isdigit(*str))
-				return(input_error(1, argv[i]));
+			if (!ft_isdigit(*str))
+				return (input_error(1, argv[i]));
 			str++;
 		}
 		if (ft_atod(argv[i]) > INT_MAX)
-			return(input_error(2, argv[i]));
+			return (input_error(2, argv[i]));
 		i++;
 	}
 	return (0);

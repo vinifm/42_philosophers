@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 19:40:24 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/26 20:07:55 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/28 19:32:52 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,50 @@ typedef struct s_philo
 /*
 // FUNCTIONS
 */
-// Input handling
+//	check_input.c
 int		invalid_args(int argc, char *argv[]);
-int		ft_atoi(const char *str);
-double	ft_atod(const char *str);
 int		ft_isdigit(int c);
 
-//	state.c
-int	update_state(int new_state, t_philo *philo);
-size_t	current_time(void);
-void	*state_loop(void *arg);
+// eat_utils.c
+int		picked_forks(t_philo *philo);
+int		drop_forks(t_philo *philo);
 int		not_hungry(t_philo *philo);
+int		eat_or_die(t_philo *philo);
 
-//	state_utils.c
-int	is_thinking(t_philo *philo);
-int	is_eating(t_philo *philo);
-int	is_sleeping(t_philo *philo);
-int	is_dead(t_philo *philo);
-int	is_simulating(t_philo *philo);
+//	ft_atoi.c
+int		ft_atoi(const char *str);
+double	ft_atod(const char *str);
 
-/*
-// DELETE BEFORE SUBMISSION
-*/
-void	test_philos(t_philo **philo);
+//	init.c
+t_philo	**create_philosophers(char *argv[], t_mtx *mtx);
+t_philo	*init_philosopher(int index, char *argv[], t_mtx *mtx);
+void	create_fork(t_philo *philo);
+t_mtx	*init_mutexes(void);
+
+//	main.c
+int		main(int argc, char **argv);
+void	start_simulation(t_philo **philo);
+void	set_start_time(t_philo **philo);
+int		simulation_loop(t_philo **philo, char *argv[]);
+int		end_simulation(t_philo **philo, t_mtx *mtx);
+
+//	state_done_utils.c
+int		done_eating(t_philo *philo);
+int		done_sleeping(t_philo *philo);
+int		done_living(t_philo *philo);
+
+//	state_is_utils.c
+int		is_thinking(t_philo *philo);
+int		is_eating(t_philo *philo);
+int		is_sleeping(t_philo *philo);
+int		is_dead(t_philo *philo);
+int		is_simulating(t_philo *philo);
+
+//	state.c
+void	*state_loop(void *arg);
+int		check_and_update_state(t_philo *philo);
+int		update_state(int new_state, t_philo *philo);
+int		print_state(t_philo *philo);
+size_t	current_time(void);
 
 #endif

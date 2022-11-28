@@ -6,7 +6,7 @@
 /*   By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 17:30:50 by viferrei          #+#    #+#             */
-/*   Updated: 2022/11/13 19:00:24 by viferrei         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:38:30 by viferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,3 @@ double	ft_atod(const char *str)
 	}
 	return (num * minus);
 }
-

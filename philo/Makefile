@@ -6,7 +6,7 @@
 #    By: viferrei <viferrei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 16:15:21 by viferrei          #+#    #+#              #
-#    Updated: 2022/11/28 10:29:06 by viferrei         ###   ########.fr        #
+#    Updated: 2022/11/28 19:29:31 by viferrei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,13 @@ LFLAGS		=	--tool=helgrind --tool=drd \
 OBJDIR		= ./objs/
 
 SRC			= check_input.c \
+				eat_utils.c \
 				ft_atoi.c \
+				init.c \
 				main.c \
-				state_utils.c \
-				state.c \
-				tests.c
+				state_done_utils.c \
+				state_is_utils.c \
+				state.c
 OBJ			= $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
 all: $(NAME)
